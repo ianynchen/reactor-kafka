@@ -23,7 +23,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.kafka.receiver.internals.ConsumerFactory;
+import reactor.kafka.receiver.internals.DefaultConsumerFactory;
 import reactor.kafka.receiver.internals.DefaultKafkaReceiver;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.TransactionManager;
@@ -46,8 +46,25 @@ public interface KafkaReceiver<K, V> {
      *        must be set on the options instance prior to creating this receiver.
      * @return new receiver instance
      */
-    public static <K, V> KafkaReceiver<K, V> create(ReceiverOptions<K, V> options) {
-        return new DefaultKafkaReceiver<>(ConsumerFactory.INSTANCE, options);
+    static <K, V> KafkaReceiver<K, V> create(ReceiverOptions<K, V> options) {
+        return create(DefaultConsumerFactory.INSTANCE, options);
+    }
+
+    /**
+     * Creates a reactive Kafka receiver with the specified consumer
+     * factory and configuration options.
+     *
+     * @param factory Custom consumer factory to create a consumer other than the
+     *        default KafkaConsumer. One can use this to wrap a brave.TracingConsumer
+     *        for tracing.
+     * @param options Configuration options of this receiver. Changes made to the options
+     *        after the receiver is created will not be used by the receiver.
+     *        A subscription using group management or a manual assignment of topic partitions
+     *        must be set on the options instance prior to creating this receiver.
+     * @return new receiver instance
+     */
+    static <K, V> KafkaReceiver<K, V> create(ConsumerFactory factory, ReceiverOptions<K, V> options) {
+        return new DefaultKafkaReceiver<>(factory, options);
     }
 
     /**

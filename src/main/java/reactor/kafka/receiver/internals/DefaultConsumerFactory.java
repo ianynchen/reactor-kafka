@@ -18,15 +18,17 @@ package reactor.kafka.receiver.internals;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import reactor.kafka.receiver.ConsumerFactory;
 import reactor.kafka.receiver.ReceiverOptions;
 
-public class ConsumerFactory {
+public class DefaultConsumerFactory implements ConsumerFactory {
 
-    public static final ConsumerFactory INSTANCE = new ConsumerFactory();
+    public static final ConsumerFactory INSTANCE = new DefaultConsumerFactory();
 
-    protected ConsumerFactory() {
+    protected DefaultConsumerFactory() {
     }
 
+    @Override
     public <K, V> Consumer<K, V> createConsumer(ReceiverOptions<K, V> config) {
         return new KafkaConsumer<>(config.consumerProperties(),
                                    config.keyDeserializer(),

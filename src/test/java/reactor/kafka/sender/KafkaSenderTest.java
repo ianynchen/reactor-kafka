@@ -55,7 +55,7 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.kafka.AbstractKafkaTest;
 import reactor.kafka.receiver.ReceiverOptions;
-import reactor.kafka.receiver.internals.ConsumerFactory;
+import reactor.kafka.receiver.internals.DefaultConsumerFactory;
 import reactor.kafka.util.TestUtils;
 import reactor.test.StepVerifier;
 
@@ -518,7 +518,7 @@ public class KafkaSenderTest extends AbstractKafkaTest {
     private Consumer<Integer, String> createConsumer() throws Exception {
         String groupId = testName.getMethodName();
         Map<String, Object> consumerProps = consumerProps(groupId);
-        Consumer<Integer, String> consumer = ConsumerFactory.INSTANCE.createConsumer(ReceiverOptions.<Integer, String>create(consumerProps));
+        Consumer<Integer, String> consumer = DefaultConsumerFactory.INSTANCE.createConsumer(ReceiverOptions.<Integer, String>create(consumerProps));
         consumer.subscribe(Collections.singletonList(topic));
         consumer.poll(requestTimeoutMillis);
         return consumer;

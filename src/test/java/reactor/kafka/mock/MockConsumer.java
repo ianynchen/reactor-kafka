@@ -49,8 +49,8 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.InvalidOffsetException;
 import org.apache.kafka.common.record.TimestampType;
 
+import reactor.kafka.receiver.ConsumerFactory;
 import reactor.kafka.receiver.ReceiverOptions;
-import reactor.kafka.receiver.internals.ConsumerFactory;
 
 /**
  * Mock consumer for testing. To enable testing with different Kafka versions, this class
@@ -485,7 +485,7 @@ public class MockConsumer extends org.apache.kafka.clients.consumer.MockConsumer
         return String.valueOf(value);
     }
 
-    public static class Pool extends ConsumerFactory {
+    public static class Pool implements ConsumerFactory {
         private final List<MockConsumer> freeConsumers = new ArrayList<>();
         private final List<MockConsumer> consumersInUse = new ArrayList<>();
         public Pool(List<MockConsumer> freeConsumers) {

@@ -44,8 +44,8 @@ import org.apache.kafka.common.errors.InvalidTopicException;
 import org.apache.kafka.common.errors.LeaderNotAvailableException;
 import org.apache.kafka.common.errors.ProducerFencedException;
 
+import reactor.kafka.sender.ProducerFactory;
 import reactor.kafka.sender.SenderOptions;
-import reactor.kafka.sender.internals.ProducerFactory;
 
 public class MockProducer implements Producer<Integer, String> {
 
@@ -261,7 +261,7 @@ public class MockProducer implements Producer<Integer, String> {
             throw new IllegalStateException("There is no open transaction.");
     }
 
-    public static class Pool extends ProducerFactory {
+    public static class Pool implements ProducerFactory {
         private final List<MockProducer> freeProducers = new ArrayList<>();
         private final List<MockProducer> producersInUse = new ArrayList<>();
         public Pool(List<MockProducer> freeProducers) {

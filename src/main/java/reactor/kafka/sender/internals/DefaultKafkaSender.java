@@ -47,6 +47,7 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.kafka.sender.KafkaOutbound;
 import reactor.kafka.sender.KafkaSender;
+import reactor.kafka.sender.ProducerFactory;
 import reactor.kafka.sender.TransactionManager;
 import reactor.kafka.sender.SenderOptions;
 import reactor.kafka.sender.SenderRecord;

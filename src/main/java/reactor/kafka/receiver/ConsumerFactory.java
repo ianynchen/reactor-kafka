@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package reactor.kafka.sender.internals;
+package reactor.kafka.receiver;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.consumer.Consumer;
 
-import reactor.kafka.sender.SenderOptions;
+public interface ConsumerFactory {
 
-public class ProducerFactory {
-
-    public static final ProducerFactory INSTANCE = new ProducerFactory();
-
-    protected ProducerFactory() {
-    }
-
-    public <K, V> Producer<K, V> createProducer(SenderOptions<K, V> senderOptions) {
-        return new KafkaProducer<>(senderOptions.producerProperties(),
-                                   senderOptions.keySerializer(),
-                                   senderOptions.valueSerializer());
-    }
+    /**
+     * Factory method to create 
+     */
+    <K, V> Consumer<K, V> createConsumer(ReceiverOptions<K, V> config);
 }

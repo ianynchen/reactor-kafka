@@ -61,6 +61,7 @@ import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOffset;
 import reactor.kafka.receiver.ReceiverPartition;
 import reactor.kafka.receiver.internals.CommittableBatch.CommitArgs;
+import reactor.kafka.receiver.ConsumerFactory;
 import reactor.kafka.sender.TransactionManager;
 
 public class DefaultKafkaReceiver<K, V> implements KafkaReceiver<K, V>, ConsumerRebalanceListener {

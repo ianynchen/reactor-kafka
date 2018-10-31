@@ -25,7 +25,7 @@ import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.sender.internals.DefaultKafkaSender;
-import reactor.kafka.sender.internals.ProducerFactory;
+import reactor.kafka.sender.internals.DefaultProducerFactory;
 
 /**
  * Reactive producer that sends outgoing records to topic partitions of a Kafka
@@ -44,8 +44,19 @@ public interface KafkaSender<K, V> {
      *        after the sender is created will not be used by the sender.
      * @return new instance of Kafka sender
      */
-    public static <K, V> KafkaSender<K, V> create(SenderOptions<K, V> options) {
-        return new DefaultKafkaSender<>(ProducerFactory.INSTANCE, options);
+    static <K, V> KafkaSender<K, V> create(SenderOptions<K, V> options) {
+        return create(DefaultProducerFactory.INSTANCE, options);
+    }
+
+    /**
+     * Creates a Kafka sender that appends records to Kafka topic partitions.
+     * @param factory Custom KafkaProducer factory.
+     * @param options Configuration options of this sender. Changes made to the options
+     *        after the sender is created will not be used by the sender.
+     * @return new instance of Kafka sender
+     */
+    static <K, V> KafkaSender<K, V> create(ProducerFactory factory, SenderOptions<K, V> options) {
+        return new DefaultKafkaSender<>(factory, options);
     }
 
     /**
